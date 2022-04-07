@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import androidx.core.app.ShareCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mWebsiteEditText: EditText
     private lateinit var mLocationEditText: EditText
+    private lateinit var mShareTextEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         mWebsiteEditText = findViewById(R.id.website_edittext)
         mLocationEditText = findViewById(R.id.location_edittext)
+        mShareTextEditText = findViewById(R.id.share_edittext)
     }
 
     fun openWebsite(view: View) {
@@ -41,5 +44,14 @@ class MainActivity : AppCompatActivity() {
             } else Log.d("ImplicitIntents", "Can't handle this!")
         }
     }
-    fun shareTex(view: View) {}
+
+    fun shareTex(view: View) {
+        val txt = mShareTextEditText.text?.toString()
+        val mimeType = "text/plain"
+        val chooser = ShareCompat.IntentBuilder(this)
+            .setType(mimeType)
+            .setChooserTitle(getString(R.string.chooser_title))
+            .setText(txt)
+        chooser.startChooser()
+    }
 }
