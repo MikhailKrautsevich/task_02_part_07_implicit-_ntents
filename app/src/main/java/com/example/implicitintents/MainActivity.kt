@@ -4,8 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import androidx.core.app.ShareCompat
 
@@ -13,6 +15,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mWebsiteEditText: EditText
     private lateinit var mLocationEditText: EditText
     private lateinit var mShareTextEditText: EditText
+    private lateinit var mTakeAPicBtn: Button
+
+    private val mPictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         mWebsiteEditText = findViewById(R.id.website_edittext)
         mLocationEditText = findViewById(R.id.location_edittext)
         mShareTextEditText = findViewById(R.id.share_edittext)
+
+        mTakeAPicBtn = findViewById(R.id.take_pic_button)
+        mPictureIntent.resolveActivity(packageManager)?.let {
+            mTakeAPicBtn.setOnClickListener { startActivity(mPictureIntent) }
+        }
     }
 
     fun openWebsite(view: View) {
